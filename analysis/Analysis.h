@@ -1,26 +1,25 @@
-// Apsauga nuo daugkartinio antraštės failo įtraukimo
+// Apsaugo, kad šis failas nebūtų įtrauktas kelis kartus kompiliuojant
 #ifndef ANALYSIS_H
 #define ANALYSIS_H
 
-// Įtraukiamos reikalingos bibliotekos
-#include <string>   // Darbui su eilutėmis
-#include <vector>   // Darbui su dinaminių masyvų vektoriais
+// Įtraukiam bibliotekas
+#include <string>   // Kad galėtume naudoti tekstą (eilutes)
+#include <vector>   // Kad galėtume dirbti su kintamo dydžio skaičių sąrašais
 
-// Abstrakti bazinė klasė analizės operacijoms
+// Klasė
 class Analysis {
 public:
-    // Virtualusis destruktorius, užtikrinantis tinkamą paveldinčių klasių išvalymą
+    //išvalyti atminį
     virtual ~Analysis() = default;
 
-    // Grynoji virtualioji funkcija, skirta duomenų analizei atlikti
-    // Parametras: const std::vector<double>& data - nuoroda į konstantinį dvigubo tikslumo skaičių vektorių
+    // Funkcija, kurią kiekviena paveldėta klasė turės įgyvendinti, kad apdorotų skaičių sąrašą
+    // Gauna: vektorių su dvigubo tikslumo skaičiais (double)
     virtual void run(const std::vector<double>& data) = 0;
 
-    // Grynoji virtualioji funkcija, grąžinanti analizės pavadinimą
-    // Grąžina: std::string - analizės pavadinimas
-    // const žymi, kad funkcija nekeičia objekto būsenos
+    // Funkcija, kuri grąžina analizės pavadinimą
+    // const reiškia, kad funkcija nieko nekeičia klasėje
     virtual std::string name() const = 0;
 };
 
-// Antraštės apsaugos pabaiga
+// Baigiam antraštės apsaugą
 #endif
