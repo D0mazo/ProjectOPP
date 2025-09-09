@@ -1,36 +1,36 @@
-// Įtraukiamos reikalingos bibliotekos
+// Itinukiamos reikalingos bibliotekos
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <vector>
 
-// Įtraukiami projekto antraštės failai
+// Itinukiami projekto antrastes failai
 #include "core/CSVLoader.h"
 #include "core/Report.h"
 #include "analysis/Analysis.h"
 #include "analysis/StdDevAnalysis.h"
 
 int main() {
-    // Sukuria CSV įkėliklį
+    // Sukuria CSV ikelikli
     CSVLoader loader;
     std::string file = "data.csv";
 
-    // Bando įkelti CSV failą
+    // Bando ikelti CSV faila
     if (!loader.load(file)) {
-        std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
+        std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprasta skaitmenini CSV faila.\n";
         return 1;
     }
 
-    // Rodo duomenų santrauką
+    // Rodo duomenu santrauka
     loader.summary();
 
-    // Sukuria analizės objektų vektorių (tik StdDevAnalysis)
+    // Sukuria analizes objektu vektoriu (tik StdDevAnalysis)
     std::vector<std::unique_ptr<Analysis>> analyses;
     analyses.push_back(std::make_unique<StdDevAnalysis>());
 
     while (true) {
-        // Prašo vartotojo pasirinkti stulpelį
-        std::cout << "\nPasirinkite stulpelį (0.." << loader.columns()-1 << ", -1 išeiti): ";
+        // Praso vartotojo pasirinkti stulpeli
+        std::cout << "\nPasirinkite stulpeli (0.." << loader.columns()-1 << ", -1 iseiti): ";
         int col;
         std::cin >> col;
         if (col < 0) break;
@@ -42,27 +42,27 @@ int main() {
         // Gauna stulpelio duomenis
         auto data = loader.getColumn(col);
         if (data.empty()) {
-            std::cout << "Stulpelis tuščias.\n";
+            std::cout << "Stulpelis tuscias.\n";
             continue;
         }
 
-        // Vykdo analizę
-        std::cout << "\n--- Vykdoma analizė stulpeliui " << col << " ---\n";
+        // Vykdo analize
+        std::cout << "\n--- Vykdoma analize stulpeliui " << col << " ---\n";
         std::ostringstream oss;
         oss << "Ataskaita stulpeliui " << col << "\n";
 
         for (auto& analysis : analyses) {
             std::cout << analysis->name() << ": ";
             analysis->run(data);
-            // Įtraukia rezultatą į ataskaitą
+            // Itraukia rezultata i ataskaita
             auto* stdDevAnalysis = dynamic_cast<StdDevAnalysis*>(analysis.get());
             if (stdDevAnalysis) {
                 oss << analysis->name() << ": " << stdDevAnalysis->getResult() << "\n";
             }
         }
 
-        // Klausia, ar išsaugoti ataskaitą
-        std::cout << "Išsaugoti ataskaitą? (t/n): ";
+        // Klausia, ar issaugoti ataskaita
+        std::cout << "Issaugoti ataskaita? (t/n): ";
         char yn;
         std::cin >> yn;
         if (yn == 't' || yn == 'T') {
@@ -70,7 +70,7 @@ int main() {
         }
     }
 
-    // Praneša apie programos pabaigą
-    std::cout << "Analizatorius baigia darbą.\n";
+    // Pranesa apie programos pabaiga
+    std::cout << "Analizatorius baigia darba.\n";
     return 0;
 }
