@@ -1,10 +1,10 @@
-// Itinukiamos reikalingos bibliotekos
+//reikalingos bibliotekos
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <vector>
 
-// Itinukiami projekto antrastes failai
+// projektiniai failai
 #include "core/CSVLoader.h"
 #include "core/Report.h"
 #include "analysis/Analysis.h"
@@ -12,20 +12,21 @@
 #include "analysis/MinMaxAnalysis.h"
 
 int main() {
+    //Enkapsuliacija - užkrovimas, duomenų "apdirbimas"
     // Sukuria CSV ikelikli
     CSVLoader loader;
     std::string file = "data.csv";
 
-    // Bando ikelti CSV faila
     if (!loader.load(file)) {
         std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprasta skaitmenini CSV faila.\n";
         return 1;
     }
 
-    // Rodo duomenu santrauka
     loader.summary();
 
-    // Sukuria analizes objektu vektoriu
+    // Paveldėjimas ir polimorfizmas: Analysis rodyklių vektorius leidžia skirtingus analizės tipus (StdDevAnalysis, MinMaxAnalysis) traktuoti vienodai
+    // LSP: StdDevAnalysis ir MinMaxAnalysis gali būti pakeisti Analysis nepažeidžiant programos veikimo
+    // DIP: Main priklauso nuo Analysis abstrakcijos, o ne nuo konkrečių implementacijų
     std::vector<std::unique_ptr<Analysis>> analyses;
     analyses.push_back(std::make_unique<StdDevAnalysis>());
     analyses.push_back(std::make_unique<MinMaxAnalysis>());
@@ -41,7 +42,7 @@ int main() {
             continue;
         }
 
-        // Gauna stulpelio duomenis
+        // Gauna stulpelio duomenis (Enkapsuliacija)
         auto data = loader.getColumn(col);
         if (data.empty()) {
             std::cout << "Stulpelis tuscias.\n";
