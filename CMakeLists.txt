@@ -10,4 +10,6 @@ add_executable(OOP main.cpp
         core/Report.cpp
         core/Report.h
         analysis/MinMaxAnalysis.cpp
-        analysis/MinMaxAnalysis.h)
+        analysis/MinMaxAnalysis.h
+        analysis/StdDevAnalysis.cpp
+        analysis/StdDevAnalysis.h)
