@@ -9,6 +9,7 @@
 #include "core/Report.h"
 #include "analysis/Analysis.h"
 #include "analysis/StdDevAnalysis.h"
+#include "analysis/MinMaxAnalysis.h"
 
 int main() {
     // Sukuria CSV ikelikli
@@ -24,9 +25,10 @@ int main() {
     // Rodo duomenu santrauka
     loader.summary();
 
-    // Sukuria analizes objektu vektoriu (tik StdDevAnalysis)
+    // Sukuria analizes objektu vektoriu
     std::vector<std::unique_ptr<Analysis>> analyses;
     analyses.push_back(std::make_unique<StdDevAnalysis>());
+    analyses.push_back(std::make_unique<MinMaxAnalysis>());
 
     while (true) {
         // Praso vartotojo pasirinkti stulpeli
@@ -55,9 +57,10 @@ int main() {
             std::cout << analysis->name() << ": ";
             analysis->run(data);
             // Itraukia rezultata i ataskaita
-            auto* stdDevAnalysis = dynamic_cast<StdDevAnalysis*>(analysis.get());
-            if (stdDevAnalysis) {
+            if (auto* stdDevAnalysis = dynamic_cast<StdDevAnalysis*>(analysis.get())) {
                 oss << analysis->name() << ": " << stdDevAnalysis->getResult() << "\n";
+            } else if (auto* minMaxAnalysis = dynamic_cast<MinMaxAnalysis*>(analysis.get())) {
+                oss << analysis->name() << ": Min " << minMaxAnalysis->getMin() << ", Max " << minMaxAnalysis->getMax() << "\n";
             }
         }
 
