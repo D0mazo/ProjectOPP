@@ -4,4 +4,5 @@ project(OOP)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(OOP main.cpp
-        analysis/Analysis.h)
+        analysis/Analysis.h
+        core/CSVLoader.h)
