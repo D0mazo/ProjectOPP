@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(OOP main.cpp
         analysis/Analysis.h
-        core/CSVLoader.h)
+        core/CSVLoader.h
+        core/CSVLoader.cpp)
