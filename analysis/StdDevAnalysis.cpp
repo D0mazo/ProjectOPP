@@ -1,15 +1,32 @@
 #include "StdDevAnalysis.h"
-#include <iostream>
-#include <numeric>
 #include <cmath>
+#include <numeric>
+#include <iostream>
 
+// Vykdo standartinio nuokrypio analizę
 void StdDevAnalysis::run(const std::vector<double>& data) {
-    if (data.empty()) { std::cout << "No data.\n"; return; }
-    double mean = std::accumulate(data.begin(), data.end(), 0.0) / data.size();
-    double sq_sum = 0.0;
-    for (double x : data) sq_sum += (x - mean) * (x - mean);
-    double stdev = std::sqrt(sq_sum / data.size());
-    std::cout << "Standard Deviation: " << stdev << "\n";
+    if (data.empty()) {
+        std::cout << "Nėra duomenų\n";
+        result_ = 0.0;
+        return;
+    }
+    // Skaičiuoja vidurkį
+    double sum = std::accumulate(data.begin(), data.end(), 0.0);
+    double mean = sum / data.size();
+    // Skaičiuoja dispersiją
+    double sq_sum = std::accumulate(data.begin(), data.end(), 0.0,
+        [mean](double a, double b) { return a + (b - mean) * (b - mean); });
+    result_ = std::sqrt(sq_sum / data.size());
+    // Išveda rezultatą
+    std::cout << result_ << "\n";
 }
 
-std::string StdDevAnalysis::name() const { return "Standard Deviation"; }
+// Grąžina analizės pavadinimą
+std::string StdDevAnalysis::name() const {
+    return "Standartinis nuokrypis";
+}
+
+// Grąžina paskutinės analizės rezultatą
+double StdDevAnalysis::getResult() const {
+    return result_;
+}
