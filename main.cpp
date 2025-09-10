@@ -11,6 +11,8 @@
 #include "analysis/Analysis.h"
 #include "analysis/StdDevAnalysis.h"
 #include "analysis/MinMaxAnalysis.h"
+#include "analysis/MedianAnalysis.h"
+#include "analysis/MeanAnalysis.h"
 
 int main() {
     // Enkapsuliacija ir SRP: CSVLoader klasė užkapsuliuoja CSV duomenų tvarkymą (įkėlimą, stulpelių gavimą) ir atsako tik už duomenų valdymą
@@ -26,13 +28,15 @@ int main() {
     // Enkapsuliacija: summary() metodas suteikia kontroliuojamą prieigą prie duomenų santraukos
     loader.summary();
 
-    // Paveldėjimas ir Polimorfizmas: Analysis rodyklių vektorius leidžia skirtingus analizės tipus (StdDevAnalysis, MinMaxAnalysis) traktuoti vienodai
-    // LSP: StdDevAnalysis ir MinMaxAnalysis gali būti pakeisti Analysis be programos veikimo pažeidimo
+    // Paveldėjimas ir Polimorfizmas: Analysis rodyklių vektorius leidžia skirtingus analizės tipus traktuoti vienodai
+    // LSP: StdDevAnalysis, MinMaxAnalysis, MedianAnalysis, MeanAnalysis gali būti pakeisti Analysis be programos veikimo pažeidimo
     // DIP: Main priklauso nuo Analysis abstrakcijos, o ne nuo konkrečių implementacijų
     // OCP: Nauji analizės tipai gali būti pridėti prie analyses vektoriaus be kilpos keitimo
     std::vector<std::unique_ptr<Analysis>> analyses;
     analyses.push_back(std::make_unique<StdDevAnalysis>());
     analyses.push_back(std::make_unique<MinMaxAnalysis>());
+    analyses.push_back(std::make_unique<MedianAnalysis>());
+    analyses.push_back(std::make_unique<MeanAnalysis>());
 
     while (true) {
         // Prašo vartotojo pasirinkti stulpelį arba išeiti
@@ -69,7 +73,8 @@ int main() {
         oss << "Ataskaita stulpeliui " << char('A' + col) << "\n";
 
         // Polimorfizmas: run() ir name() metodai kviečiami per Analysis rodykles, iškviečiant tinkamą paveldėtos klasės metodą
-        // ISP (Pažeidimas): dynamic_cast priverčia priklausomybę nuo specifinių paveldėtų klasių metodų (getResult, getMin, getMax)
+        // ISP (Pažeidimas): dynamic_cast priverčia priklausomybę nuo specifinių paveldėtų klasių metodų
+        // DIP (Pažeidimas): dynamic_cast įveda priklausomybę nuo konkrečių klasių
         for (auto& analysis : analyses) {
             std::cout << analysis->name() << ": ";
             analysis->run(data);
@@ -78,6 +83,10 @@ int main() {
                 oss << analysis->name() << ": " << stdDevAnalysis->getResult() << "\n";
             } else if (auto* minMaxAnalysis = dynamic_cast<MinMaxAnalysis*>(analysis.get())) {
                 oss << analysis->name() << ": Min " << minMaxAnalysis->getMin() << ", Max " << minMaxAnalysis->getMax() << "\n";
+            } else if (auto* medianAnalysis = dynamic_cast<MedianAnalysis*>(analysis.get())) {
+                oss << analysis->name() << ": " << medianAnalysis->getResult() << "\n";
+            } else if (auto* meanAnalysis = dynamic_cast<MeanAnalysis*>(analysis.get())) {
+                oss << analysis->name() << ": " << meanAnalysis->getResult() << "\n";
             }
         }
 
