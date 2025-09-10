@@ -14,4 +14,6 @@ add_executable(OOP main.cpp
         analysis/StdDevAnalysis.cpp
         analysis/StdDevAnalysis.h
         analysis/MeanAnalysis.h
-        analysis/MeanAnalysis.cpp)
+        analysis/MeanAnalysis.cpp
+        analysis/MedianAnalysis.cpp
+        analysis/MedianAnalysis.h)
