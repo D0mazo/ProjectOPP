@@ -21,7 +21,7 @@ int main() {
 
     // Bando įkelti CSV failą
     if (!loader.load(file)) {
-        std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
+        std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV faila.\n";
         return 1;
     }
 
@@ -40,7 +40,7 @@ int main() {
 
     while (true) {
         // Prašo vartotojo pasirinkti stulpelį arba išeiti
-        std::cout << "\nPasirinkite stulpelį (A, B, C, D arba 'sad' išeiti): ";
+        std::cout << "\nPasirinkite stulpelį (A, B, C, D arba 'sad' iseiti): ";
         std::string input;
         std::cin >> input;
 
@@ -56,19 +56,19 @@ int main() {
         // Konvertuoja įvestą raidę į stulpelio indeksą (A=0, B=1, C=2, D=3)
         int col = std::toupper(input[0]) - 'A';
         if (static_cast<size_t>(col) >= loader.columns()) {
-            std::cout << "Neteisingas stulpelis. Per daug stulpelių.\n";
+            std::cout << "Neteisingas stulpelis.\n";
             continue;
         }
 
         // Enkapsuliacija: getColumn() metodas suteikia kontroliuojamą prieigą prie CSV duomenų
         auto data = loader.getColumn(col);
         if (data.empty()) {
-            std::cout << "Stulpelis tuščias.\n";
+            std::cout << "Stulpelis tuscias.\n";
             continue;
         }
 
         // Vykdo analizę
-        std::cout << "\n--- Vykdoma analizė stulpeliui " << char('A' + col) << " ---\n";
+        std::cout << "\n--- Vykdoma analize stulpeliui " << char('A' + col) << " ---\n";
         std::ostringstream oss;
         oss << "Ataskaita stulpeliui " << char('A' + col) << "\n";
 
@@ -91,7 +91,7 @@ int main() {
         }
 
         // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
-        std::cout << "Išsaugoti ataskaitą? (t/n): ";
+        std::cout << "Issaugoti ataskaita? (t/n): ";
         char yn;
         std::cin >> yn;
         if (yn == 't' || yn == 'T') {
