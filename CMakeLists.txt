@@ -12,4 +12,6 @@ add_executable(OOP main.cpp
         analysis/MinMaxAnalysis.cpp
         analysis/MinMaxAnalysis.h
         analysis/StdDevAnalysis.cpp
-        analysis/StdDevAnalysis.h)
+        analysis/StdDevAnalysis.h
+        analysis/MeanAnalysis.h
+        analysis/MeanAnalysis.cpp)
