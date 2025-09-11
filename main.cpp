@@ -13,6 +13,7 @@
 #include "analysis/MinMaxAnalysis.h"
 #include "analysis/MedianAnalysis.h"
 #include "analysis/MeanAnalysis.h"
+#include "analysis/ModeAnalysis.h"
 
 int main() {
     // Enkapsuliacija ir SRP: CSVLoader klasė užkapsuliuoja CSV duomenų tvarkymą (įkėlimą, stulpelių gavimą) ir atsako tik už duomenų valdymą
@@ -37,6 +38,7 @@ int main() {
     analyses.push_back(std::make_unique<MinMaxAnalysis>());
     analyses.push_back(std::make_unique<MedianAnalysis>());
     analyses.push_back(std::make_unique<MeanAnalysis>());
+    analyses.push_back(std::make_unique<ModeAnalysis>());
 
     while (true) {
         // Prašo vartotojo pasirinkti stulpelį arba išeiti
@@ -87,19 +89,21 @@ int main() {
                 oss << analysis->name() << ": " << medianAnalysis->getResult() << "\n";
             } else if (auto* meanAnalysis = dynamic_cast<MeanAnalysis*>(analysis.get())) {
                 oss << analysis->name() << ": " << meanAnalysis->getResult() << "\n";
+            } else if (auto* modeAnalysis = dynamic_cast<ModeAnalysis*>(analysis.get())) {
+                oss << analysis->name() << ": " << modeAnalysis->getResult() << "\n";
+            }
+
+            // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
+            std::cout << "Issaugoti ataskaita? (t/n): ";
+            char yn;
+            std::cin >> yn;
+            if (yn == 't' || yn == 'T') {
+                Report::save("report.txt", oss.str());
             }
         }
 
-        // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
-        std::cout << "Issaugoti ataskaita? (t/n): ";
-        char yn;
-        std::cin >> yn;
-        if (yn == 't' || yn == 'T') {
-            Report::save("report.txt", oss.str());
-        }
+        // Praneša apie programos pabaigą
+        std::cout << "Analizatorius baigia darbą.\n";
+        return 0;
     }
-
-    // Praneša apie programos pabaigą
-    std::cout << "Analizatorius baigia darbą.\n";
-    return 0;
 }
