@@ -22,7 +22,7 @@ int main() {
 
     // Bando įkelti CSV failą
     if (!loader.load(file)) {
-        std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV faila.\n";
+        std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
         return 1;
     }
 
@@ -92,18 +92,18 @@ int main() {
             } else if (auto* modeAnalysis = dynamic_cast<ModeAnalysis*>(analysis.get())) {
                 oss << analysis->name() << ": " << modeAnalysis->getResult() << "\n";
             }
-
-            // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
-            std::cout << "Issaugoti ataskaita? (t/n): ";
-            char yn;
-            std::cin >> yn;
-            if (yn == 't' || yn == 'T') {
-                Report::save("report.txt", oss.str());
-            }
         }
 
-        // Praneša apie programos pabaigą
-        std::cout << "Analizatorius baigia darbą.\n";
-        return 0;
+        // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
+        std::cout << "Issaugoti ataskaita? (t/n): ";
+        char yn;
+        std::cin >> yn;
+        if (yn == 't' || yn == 'T') {
+            Report::save("report.txt", oss.str());
+        }
     }
+
+    // Praneša apie programos pabaigą
+    std::cout << "Analizatorius baigia darbą.\n";
+    return 0;
 }
