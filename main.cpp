@@ -1,64 +1,68 @@
 // Įtraukiamos reikalingos bibliotekos
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <vector>
-#include <cctype> // Dėl std::toupper funkcijos, kad galėtume apdoroti didžiąsias ir mažąsias raides
+#include <iostream>  // Naudojama standartiniam įvesties/išvesties tvarkymui (std::cout, std::cin)
+#include <memory>    // Naudojama išmaniems rodyklėms (std::unique_ptr) – užtikrina atminties valdymą be nutekėjimų (RAII principas)
+#include <sstream>   // Naudojama std::ostringstream rezultatų kaupimui į stringą (efektyvus buferis ataskaitoms)
+#include <vector>    // Naudojama std::vector analizės objektams laikyti – dinamiškas masyvas su polimorfiniais objektais
+#include <cctype>    // Dėl std::toupper funkcijos, kad galėtume apdoroti didžiąsias ir mažąsias raides (įvesties normalizavimas)
 
-// Įtraukiami projekto antraštės failai
-#include "core/CSVLoader.h"
-#include "core/Report.h"
-#include "analysis/Analysis.h"
-#include "analysis/StdDevAnalysis.h"
-#include "analysis/MinMaxAnalysis.h"
-#include "analysis/MedianAnalysis.h"
-#include "analysis/MeanAnalysis.h"
-#include "analysis/ModeAnalysis.h"
+//SRP : Single Responsibility Principle
+#include "core/CSVLoader.h"      // Klasė duomenų įkėlimui iš CSV – enkapsuliuoja failo skaitymą
+#include "core/Report.h"         // Klasė ataskaitų išsaugojimui – atsakinga tik už failo rašymą (SRP)
+#include "analysis/Analysis.h"   // Bazinė abstrakcijos klasė analizėms – apibrėžia bendrą interfeisą (Abstrakcija, DIP)
+#include "analysis/StdDevAnalysis.h"  // Konkretus analizės tipas (standartinis nuokrypis) – paveldi iš Analysis (Paveldėjimas)
+#include "analysis/MinMaxAnalysis.h"  // Min/Max analizė – paveldi, leidžia polimorfizmą
+#include "analysis/MedianAnalysis.h"  // Mediana – paveldi, užtikrina LSP (gali pakeisti bazę be klaidų)
+#include "analysis/MeanAnalysis.h"    // Vidurkis – paveldi
+#include "analysis/ModeAnalysis.h"    // Moda – paveldi
 
 int main() {
-    // Enkapsuliacija ir SRP: CSVLoader klasė užkapsuliuoja CSV duomenų tvarkymą (įkėlimą, stulpelių gavimą) ir atsako tik už duomenų valdymą
-    CSVLoader loader;
-    std::string file = "data.csv";
+    // Enkapsuliacija ir SRP: CSVLoader klasė užkapsuliuoja CSV duomenų tvarkymą (įkėlimą, stulpelių gavimą)
+    CSVLoader loader;  // enkapsuliuoja visą CSV logiką
+    std::string file = "data.csv";  // SRP
 
-    // Bando įkelti CSV failą
+    // įkelia CSV failą, Abstrakcija
     if (!loader.load(file)) {
         std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
         return 1;
     }
-
-    // Enkapsuliacija: summary() metodas suteikia kontroliuojamą prieigą prie duomenų santraukos
-    loader.summary();
+    // Enkapsuliacija
+    loader.summary(); // kiek ko
 
     // Paveldėjimas ir Polimorfizmas: Analysis rodyklių vektorius leidžia skirtingus analizės tipus traktuoti vienodai
-    // LSP: StdDevAnalysis, MinMaxAnalysis, MedianAnalysis, MeanAnalysis gali būti pakeisti Analysis be programos veikimo pažeidimo
     // DIP: Main priklauso nuo Analysis abstrakcijos, o ne nuo konkrečių implementacijų
-    // OCP: Nauji analizės tipai gali būti pridėti prie analyses vektoriaus be kilpos keitimo
-    std::vector<std::unique_ptr<Analysis>> analyses;
-    analyses.push_back(std::make_unique<StdDevAnalysis>());
-    analyses.push_back(std::make_unique<MinMaxAnalysis>());
-    analyses.push_back(std::make_unique<MedianAnalysis>());
-    analyses.push_back(std::make_unique<MeanAnalysis>());
-    analyses.push_back(std::make_unique<ModeAnalysis>());
+    std::vector<std::unique_ptr<Analysis>> analyses;  // polimorfizmas + atminties saugumas (neprivaloma išvalyti)
+    analyses.push_back(std::make_unique<StdDevAnalysis>());  // Standartinis nuokrypis - paveldėjimas
+    analyses.push_back(std::make_unique<MinMaxAnalysis>());  // Min/Max – polimorfiškai kviečiamas run()
+    analyses.push_back(std::make_unique<MedianAnalysis>());  // Mediana
+    analyses.push_back(std::make_unique<MeanAnalysis>());    // Vidurkis
+    analyses.push_back(std::make_unique<ModeAnalysis>());    // Moda
+    // OCP: Nauji analizės tipai gali būti pridėti, plėtra be modifikacijos – pridėti push_back ir viskas veikia
+    // LSP: StdDevAnalysis, MinMaxAnalysis, MedianAnalysis, MeanAnalysis gali būti pakeisti Analysis be programos veikimo pažeidimo
 
+
+    // kilpa opcijoms (SRP: main() atsakingas už ciklą ir įvestį)
     while (true) {
-        // Prašo vartotojo pasirinkti stulpelį arba išeiti
+        // Prašo vartotojo pasirinkti stulpelį arba išeiti – sad
         std::cout << "\nPasirinkite stulpelį (A, B, C, D arba 'sad' iseiti): ";
         std::string input;
-        std::cin >> input;
+        std::cin >> input;  // Skaito įvestį
 
         // Tikrina išėjimo sąlygą
-        if (input == "sad") break;
+        if (input == "sad") break;  //nutraukia
 
-        // Validuoja įvestį: turi būti viena raidė (A, B, C, D)
-        if (input.length() != 1 || std::toupper(input[0]) < 'A' || std::toupper(input[0]) > 'D') {
+        //įvesties validacija
+        // SRP
+        if (input.length() != 1 || std::toupper(input[0]) < 'A' || std::toupper(input[0]) > 'D') { //std::toupper – case-insensitive
             std::cout << "Neteisingas stulpelis. Naudokite A, B, C arba D.\n";
-            continue;
+            continue;  // grįžta be vykdymo
         }
 
-        // Konvertuoja įvestą raidę į stulpelio indeksą (A=0, B=1, C=2, D=3)
-        int col = std::toupper(input[0]) - 'A';
+
+        // (Konvertuoja įvestą raidę į stulpelio indeksą, Abstrakcija: slepia, kad viduje stulpeliai indeksuojami nuo 0)
+        int col = std::toupper(input[0]) - 'A';  // Raidę paverčia skaičiumi (pvz., 'B' -> 1)
+        // tikrina ribas
         if (static_cast<size_t>(col) >= loader.columns()) {
-            std::cout << "Neteisingas stulpelis.\n";
+            std::cout << "Neteisingas stulpelis.\n"; // jei nėra, klaida
             continue;
         }
 
@@ -69,18 +73,16 @@ int main() {
             continue;
         }
 
-        // Vykdo analizę
-        std::cout << "\n--- Vykdoma analize stulpeliui " << char('A' + col) << " ---\n";
+        // Vykdo analizę – pranešimas vartotojui
+        std::cout << "\n--- Vykdoma analize stulpeliui " << char('A' + col) << " ---\n";  // Išveda stulpelio raidę
         std::ostringstream oss;
-        oss << "Ataskaita stulpeliui " << char('A' + col) << "\n";
+        oss << "Ataskaita stulpeliui " << char('A' + col) << "\n";  // Pradeda ataskaitą
 
         // Polimorfizmas: run() ir name() metodai kviečiami per Analysis rodykles, iškviečiant tinkamą paveldėtos klasės metodą
-        // ISP (Pažeidimas): dynamic_cast priverčia priklausomybę nuo specifinių paveldėtų klasių metodų
-        // DIP (Pažeidimas): dynamic_cast įveda priklausomybę nuo konkrečių klasių
-        for (auto& analysis : analyses) {
-            std::cout << analysis->name() << ": ";
-            analysis->run(data);
-            // Įtraukia rezultatą į ataskaitą
+        //ISP ir DIP pažeistas
+        for (auto& analysis : analyses) {  // Ciklas per visas analizes – OCP
+            std::cout << analysis->name() << ": ";  // Polimorfizmas}
+            analysis->run(data);  // Vykdo analizę – virtualus metodas, polimorfiškas
             if (auto* stdDevAnalysis = dynamic_cast<StdDevAnalysis*>(analysis.get())) {
                 oss << analysis->name() << ": " << stdDevAnalysis->getResult() << "\n";
             } else if (auto* minMaxAnalysis = dynamic_cast<MinMaxAnalysis*>(analysis.get())) {
@@ -92,18 +94,19 @@ int main() {
             } else if (auto* modeAnalysis = dynamic_cast<ModeAnalysis*>(analysis.get())) {
                 oss << analysis->name() << ": " << modeAnalysis->getResult() << "\n";
             }
+            // Pastaba: jei pridėsime naują analizę be else if, ji bus ignoruota – pažeidžia OCP ir LSP!
         }
 
         // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
         std::cout << "Issaugoti ataskaita? (t/n): ";
-        char yn;
+        char yn;  //
         std::cin >> yn;
         if (yn == 't' || yn == 'T') {
-            Report::save("report.txt", oss.str());
+            Report::save("report.txt", oss.str());  // Enkapsuliacija - įrašo
         }
-    }
 
-    // Praneša apie programos pabaigą
-    std::cout << "Analizatorius baigia darbą.\n";
+    }  // Ciklo pabaiga
+
+       std::cout << "Analizatorius baigia darbą.\n";
     return 0;
 }
