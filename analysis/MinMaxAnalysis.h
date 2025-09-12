@@ -1,4 +1,3 @@
-// Neleidzia daug kartu itinukti si antrastes faila
 #ifndef MINMAXANALYSIS_H
 #define MINMAXANALYSIS_H
 
@@ -6,22 +5,20 @@
 #include <string>
 #include <vector>
 
-// Klase minimalios ir maksimalios reiksmes skaiciavimui
+// Paveldėjimas: MinMaxAnalysis paveldi iš Analysis
 class MinMaxAnalysis : public Analysis {
 public:
-    // Vykdo minimalios ir maksimalios reiksmes analize
+    // Polimorfizmas: Perrašo run() iš Analysis
     void run(const std::vector<double>& data) override;
-    // Grazina analizes pavadinima
+    // Polimorfizmas: Grąžina analizės pavadinimą
     std::string name() const override;
-    // Grazina minimalia reiksme
-    double getMin() const;
-    // Grazina maksimalia reiksme
-    double getMax() const;
+    // ISP/DIP: Formatuoja min/max kaip eilutę
+    std::string getFormattedResult() const override;
 
 private:
-    double min_ = 0.0; // Saugo minimalia reiksme
-    double max_ = 0.0; // Saugo maksimalia reiksme
+    // Enkapsuliacija: Privatūs nariai saugo min/max
+    double min_ = 0.0;
+    double max_ = 0.0;
 };
 
-// Antrastes apsaugos pabaiga
 #endif

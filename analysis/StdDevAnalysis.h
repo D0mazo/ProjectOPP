@@ -1,4 +1,3 @@
-// Neleidžia daug kartų įtraukti šį antraštės failą
 #ifndef STDDEVANALYSIS_H
 #define STDDEVANALYSIS_H
 
@@ -6,19 +5,19 @@
 #include <string>
 #include <vector>
 
-// Klasė standartinio nuokrypio skaičiavimui
+// Paveldėjimas: StdDevAnalysis paveldi iš Analysis
 class StdDevAnalysis : public Analysis {
 public:
-    // Vykdo standartinio nuokrypio analizę
+    // Polimorfizmas: Perrašo run() iš Analysis
     void run(const std::vector<double>& data) override;
-    // Grąžina analizės pavadinimą
+    // Polimorfizmas: Grąžina analizės pavadinimą
     std::string name() const override;
-    // Grąžina paskutinės analizės rezultatą
-    double getResult() const;
+    // ISP/DIP: Formatuoja std. nuokrypį kaip eilutę
+    std::string getFormattedResult() const override;
 
 private:
-    double result_ = 0.0; // Saugo standartinio nuokrypio rezultatą
+    // Enkapsuliacija: Privatus narys saugo std. nuokrypį
+    double result_ = 0.0;
 };
 
-// Antraštės apsaugos pabaiga
 #endif

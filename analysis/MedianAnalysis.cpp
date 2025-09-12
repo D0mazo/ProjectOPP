@@ -29,7 +29,7 @@ std::string MedianAnalysis::name() const {
     return "Mediana";
 }
 
-// Enkapsuliacija: Kontroliuojama prieiga prie privataus nario
-double MedianAnalysis::getResult() const {
-    return result_;
+// ISP/DIP: Formatuoja rezultatą kaip eilutę (vietoj specifinio getResult())
+std::string MedianAnalysis::getFormattedResult() const {
+    return std::to_string(result_);
 }

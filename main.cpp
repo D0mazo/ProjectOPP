@@ -81,21 +81,12 @@ int main() {
         // Polimorfizmas: run() ir name() metodai kviečiami per Analysis rodykles, iškviečiant tinkamą paveldėtos klasės metodą
         //ISP ir DIP pažeistas
         for (auto& analysis : analyses) {  // Ciklas per visas analizes – OCP
-            std::cout << analysis->name() << ": ";  // Polimorfizmas}
+            std::cout << analysis->name() << ": ";  // Polimorfizmas: name() per bazę
             analysis->run(data);  // Vykdo analizę – virtualus metodas, polimorfiškas
-            if (auto* stdDevAnalysis = dynamic_cast<StdDevAnalysis*>(analysis.get())) {
-                oss << analysis->name() << ": " << stdDevAnalysis->getResult() << "\n";
-            } else if (auto* minMaxAnalysis = dynamic_cast<MinMaxAnalysis*>(analysis.get())) {
-                oss << analysis->name() << ": Min " << minMaxAnalysis->getMin() << ", Max " << minMaxAnalysis->getMax() << "\n";
-            } else if (auto* medianAnalysis = dynamic_cast<MedianAnalysis*>(analysis.get())) {
-                oss << analysis->name() << ": " << medianAnalysis->getResult() << "\n";
-            } else if (auto* meanAnalysis = dynamic_cast<MeanAnalysis*>(analysis.get())) {
-                oss << analysis->name() << ": " << meanAnalysis->getResult() << "\n";
-            } else if (auto* modeAnalysis = dynamic_cast<ModeAnalysis*>(analysis.get())) {
-                oss << analysis->name() << ": " << modeAnalysis->getResult() << "\n";
-            }
-            // Pastaba: jei pridėsime naują analizę be else if, ji bus ignoruota – pažeidžia OCP ir LSP!
-        }
+            std::string result = analysis->getFormattedResult();  // DIP/ISP: Rezultatas per abstrakciją (be dynamic_cast)
+            std::cout << result << "\n";  // Spausdina formatuotą rezultatą
+            oss << analysis->name() << ": " << result << "\n";  // Įtraukia į ataskaitą (vieningai visoms)
+        }  // Pastaba: Nauja analizė veiks automatiškai – atitinka OCP/LSP
 
         // SRP: Report klasė atsakinga tik už ataskaitų išsaugojimą
         std::cout << "Issaugoti ataskaita? (t/n): ";

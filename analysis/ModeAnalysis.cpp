@@ -1,10 +1,9 @@
 #include "ModeAnalysis.h"
-#include <iostream>
 #include <map>
 
+// Vykdo modą analizę (be spausdinimo – SRP)
 void ModeAnalysis::run(const std::vector<double>& data) {
     if (data.empty()) {
-        std::cout << "No data.\n";
         result_.reset();
         frequency_ = 0;
         return;
@@ -24,16 +23,18 @@ void ModeAnalysis::run(const std::vector<double>& data) {
 
     result_ = modeValue;
     frequency_ = maxCount;
-
-    std::cout << "Mode: " << modeValue << " (appears " << maxCount << " times)\n";
 }
 
-std::string ModeAnalysis::name() const { return "Mode"; }
+// Grąžina analizės pavadinimą
+std::string ModeAnalysis::name() const {
+    return "Mode";
+}
 
-double ModeAnalysis::getResult() const {
+// ISP/DIP: Formatuoja modą ir dažnį kaip eilutę (tvarko optional)
+std::string ModeAnalysis::getFormattedResult() const {
     if (result_.has_value()) {
-        return result_.value();
+        return std::to_string(result_.value()) + " (appears " + std::to_string(frequency_) + " times)";
     } else {
-        return 0.0; // or throw an exception if you prefer
+        return "No mode";
     }
 }

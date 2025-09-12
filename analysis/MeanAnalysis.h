@@ -1,4 +1,3 @@
-// Apsaugo, kad šis failas nebūtų įtrauktas kelis kartus kompiliuojant
 #ifndef MEANANALYSIS_H
 #define MEANANALYSIS_H
 
@@ -9,16 +8,16 @@
 // Paveldėjimas: MeanAnalysis paveldi iš Analysis
 class MeanAnalysis : public Analysis {
 public:
-    // Polimorfizmas: Perrašo virtualias funkcijas iš Analysis
+    // Polimorfizmas: Perrašo run() iš Analysis
     void run(const std::vector<double>& data) override;
+    // Polimorfizmas: Grąžina analizės pavadinimą
     std::string name() const override;
-    // Enkapsuliacija: Viešasis metodas prieigai prie privataus nario
-    double getResult() const;
+    // ISP/DIP: Formatuoja rezultatą kaip eilutę
+    std::string getFormattedResult() const override;
 
 private:
-    // Enkapsuliacija: Privatus narys saugo analizės rezultatą
-    double result_ = 0.0; // Saugo vidurkio rezultatą
+    // Enkapsuliacija: Privatus narys saugo vidurkį
+    double result_ = 0.0;
 };
 
-// Baigia antraštės apsaugą
 #endif
