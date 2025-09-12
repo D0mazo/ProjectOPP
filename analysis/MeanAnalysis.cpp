@@ -17,7 +17,7 @@ std::string MeanAnalysis::name() const {
     return "Vidurkis";
 }
 
-// ISP/DIP: Formatuoja rezultatą kaip eilutę (vietoj specifinio getResult())
+// ISP/DIP:
 std::string MeanAnalysis::getFormattedResult() const {
     return std::to_string(result_);
 }

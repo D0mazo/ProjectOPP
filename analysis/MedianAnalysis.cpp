@@ -29,7 +29,7 @@ std::string MedianAnalysis::name() const {
     return "Mediana";
 }
 
-// ISP/DIP: Formatuoja rezultatą kaip eilutę (vietoj specifinio getResult())
+// ISP/DIP
 std::string MedianAnalysis::getFormattedResult() const {
     return std::to_string(result_);
 }

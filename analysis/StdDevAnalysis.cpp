@@ -26,7 +26,7 @@ std::string StdDevAnalysis::name() const {
     return "Standartinis nuokrypis";
 }
 
-// ISP/DIP: Formatuoja rezultatą kaip eilutę (vietoj specifinio getResult())
+// ISP/DIP
 std::string StdDevAnalysis::getFormattedResult() const {
     return std::to_string(result_);
 }
