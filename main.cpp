@@ -14,6 +14,7 @@
 #include "analysis/MedianAnalysis.h"  // Mediana – paveldi, užtikrina LSP (gali pakeisti bazę be klaidų)
 #include "analysis/MeanAnalysis.h"    // Vidurkis – paveldi
 #include "analysis/ModeAnalysis.h"    // Moda – paveldi
+#include "analysis/SumAnalysis.h"
 
 int main() {
     // Enkapsuliacija ir SRP: CSVLoader klasė užkapsuliuoja CSV duomenų tvarkymą (įkėlimą, stulpelių gavimą)
@@ -36,9 +37,10 @@ int main() {
     analyses.push_back(std::make_unique<MedianAnalysis>());  // Mediana
     analyses.push_back(std::make_unique<MeanAnalysis>());    // Vidurkis
     analyses.push_back(std::make_unique<ModeAnalysis>());    // Moda
+
     // OCP: Nauji analizės tipai gali būti pridėti, plėtra be modifikacijos – pridėti push_back ir viskas veikia
     // LSP: StdDevAnalysis, MinMaxAnalysis, MedianAnalysis, MeanAnalysis gali būti pakeisti Analysis be programos veikimo pažeidimo
-
+    analyses.push_back(std::make_unique<SumAnalysis>());
 
     // kilpa opcijoms (SRP: main() atsakingas už ciklą ir įvestį)
     while (true) {
