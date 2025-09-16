@@ -7,8 +7,6 @@ add_executable(OOP main.cpp
         analysis/Analysis.h
         core/CSVLoader.h
         core/CSVLoader.cpp
-        core/Report.cpp
-        core/Report.h
         analysis/MinMaxAnalysis.cpp
         analysis/MinMaxAnalysis.h
         analysis/MeanAnalysis.h

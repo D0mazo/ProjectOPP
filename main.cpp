@@ -7,7 +7,6 @@
 
 // SRP : Single Responsibility Principle
 #include "core/CSVLoader.h"
-#include "core/Report.h"
 #include "analysis/Analysis.h"
 
 #include "analysis/MinMaxAnalysis.h"
@@ -94,13 +93,6 @@ int main() {
             e->exportResults(results);
         }
 
-
-        std::cout << "Issaugoti ataskaita? (t/n): ";
-        char yn;
-        std::cin >> yn;
-        if (yn == 't' || yn == 'T') {
-            Report::save("report.txt", oss.str());
-        }
     }
 
 
