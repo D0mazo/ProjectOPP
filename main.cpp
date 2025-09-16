@@ -5,22 +5,20 @@
 #include <vector>
 #include <cctype>
 
-// SRP : Single Responsibility Principle
+// SRP : Atsakingas už vienąSingle Responsibility Principle
 #include "core/CSVLoader.h"
 #include "analysis/Analysis.h"
-
 #include "analysis/MinMaxAnalysis.h"
 #include "analysis/MedianAnalysis.h"
 #include "analysis/MeanAnalysis.h"
 #include "analysis/ModeAnalysis.h"
 #include "analysis/SumAnalysis.h"
 
-// --- OOP Demo Includes ---
-#include "core/Result.h"              // Encapsulation
-#include "extra/Exporter.h"           // Abstraction
-#include "extra/TextExporter.h"       // Inheritance + Polymorphism
-
-#include "extra/SimpleData.h"         // Class
+// OPP principai
+#include "core/Result.h"              // Enkapsuliacija
+#include "extra/Exporter.h"           // Abstrakcija
+#include "extra/TextExporter.h"       // Paveldėjimas ir Polimorfizmas
+#include "extra/SimpleData.h"         // Klasė
 
 int main() {
     CSVLoader loader;
@@ -72,7 +70,7 @@ int main() {
                         analysis->run(data);
         }
 
-        // Visi Prinscipai
+        // Visi Principai
         // 1. Klasė
         std::string colName = std::string("Column ") + char('A' + col);
         SimpleData demo(colName, data);
