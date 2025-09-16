@@ -1,25 +1,24 @@
-// Įtraukiamos reikalingos bibliotekos ir antraštės failas
+
 #include "CSVLoader.h"
 #include <fstream>    // Failų skaitymui
 #include <iostream>   // Išvesties srautui
 #include <sstream>    // Eilučių apdorojimui
 
-// Įkelia duomenis iš CSV failo
+
 bool CSVLoader::load(const std::string& filename) {
-    // Atidaro failą skaitymui
     std::ifstream file(filename);
-    // Jei failo nepavyko atidaryti, grąžina false
     if (!file) return false;
 
-    // Išvalo esamus duomenis
+
     data_.clear();
     std::string line;
-    // Skaito failą eilutė po eilutės
+
+
     while (std::getline(file, line)) {
         // Sukuria srautą eilutės apdorojimui
         std::istringstream iss(line);
         std::string cell;
-        // Vektorius saugoti vienos eilutės duomenis
+        //saugoti eilutės duomenis
         std::vector<double> row;
         // Skaito langelius, atskirtus kableliais
         while (std::getline(iss, cell, ',')) {
