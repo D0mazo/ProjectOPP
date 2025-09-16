@@ -19,4 +19,9 @@ add_executable(OOP main.cpp
         analysis/ModeAnalysis.h
         analysis/SumAnalysis.cpp
         analysis/SumAnalysis.h
+        core/Result.h
+        Extra/Exporter.h
+        Extra/TextExporter.h
+        Extra/ConsoleExporter.h
+        Extra/SimpleData.h
 )
