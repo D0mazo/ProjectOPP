@@ -7,9 +7,10 @@
 
 //SRP : Single Responsibility Principle
 #include "core/CSVLoader.h"      // Klasė duomenų įkėlimui iš CSV – enkapsuliuoja failo skaitymą
-#include "core/Report.h"         // Klasė ataskaitų išsaugojimui – atsakinga tik už failo rašymą (SRP)
+#include "core/Report.h"
+// Klasė ataskaitų išsaugojimui – atsakinga tik už failo rašymą (SRP)
 #include "analysis/Analysis.h"   // Bazinė abstrakcijos klasė analizėms – apibrėžia bendrą interfeisą (Abstrakcija, DIP)
-#include "analysis/StdDevAnalysis.h"  // Konkretus analizės tipas (standartinis nuokrypis) – paveldi iš Analysis (Paveldėjimas)
+
 #include "analysis/MinMaxAnalysis.h"  // Min/Max analizė – paveldi, leidžia polimorfizmą
 #include "analysis/MedianAnalysis.h"  // Mediana – paveldi, užtikrina LSP (gali pakeisti bazę be klaidų)
 #include "analysis/MeanAnalysis.h"    // Vidurkis – paveldi
@@ -27,12 +28,12 @@ int main() {
         return 1;
     }
     // Enkapsuliacija
-    loader.summary(); // kiek ko
+    loader.summary();
 
     // Paveldėjimas ir Polimorfizmas: Analysis rodyklių vektorius leidžia skirtingus analizės tipus traktuoti vienodai
     // DIP: Main priklauso nuo Analysis abstrakcijos, o ne nuo konkrečių implementacijų
     std::vector<std::unique_ptr<Analysis>> analyses;  // polimorfizmas + atminties saugumas (neprivaloma išvalyti)
-    analyses.push_back(std::make_unique<StdDevAnalysis>());  // Standartinis nuokrypis - paveldėjimas
+
     analyses.push_back(std::make_unique<MinMaxAnalysis>());  // Min/Max – polimorfiškai kviečiamas run()
     analyses.push_back(std::make_unique<MedianAnalysis>());  // Mediana
     analyses.push_back(std::make_unique<MeanAnalysis>());    // Vidurkis

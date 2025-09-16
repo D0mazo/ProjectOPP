@@ -24,7 +24,6 @@ public:
 
     // ISP: Vienintelis metodas rezultatams – segreguotas, klientas nežino specifinių detalių (pvz., getMin())
     // DIP: Polimorfinis – kiekviena subclass įgyvendina savo formatą, bet main kviečia per bazę
-    // const: Saugus, nekeičia būsenos
     virtual std::string getFormattedResult() const = 0;
 };
 
