@@ -70,34 +70,31 @@ int main() {
         oss << "Ataskaita stulpeliui " << char('A' + col) << "\n";
 
         for (auto& analysis : analyses) {
-            std::cout << analysis->name() << ": ";
-            analysis->run(data);
-            std::string result = analysis->getFormattedResult();
-            //std::cout << result << "\n";
-            //oss << analysis->name() << ": " << result << "\n";
+                        analysis->run(data);
         }
 
-
-        // --- OOP DEMO: All Five Principles ---
-        // 1. Class
-        SimpleData demo("DemoColumn", 123);
+        // Visi Prinscipai
+        // 1. Klasė
+        std::string colName = std::string("Column ") + char('A' + col);
+        SimpleData demo(colName, data);
         demo.print();
 
-        // 2. Encapsulation
+        // 2. Enkapsuliacija
         std::vector<Result> results;
         for (auto& analysis : analyses) {
             results.emplace_back(analysis->name(), analysis->getFormattedResult());
         }
 
-        // 3-5. Abstraction + Inheritance + Polymorphism
+        // Abstrakcija, Paveldėjimas, Polimorfizmas
         std::vector<std::unique_ptr<Exporter>> exporters;
         exporters.push_back(std::make_unique<TextExporter>());
 
 
         for (auto& e : exporters) {
-            e->exportResults(results);  // Polymorphic call via abstract Exporter
+            e->exportResults(results);
         }
-        // --- End OOP Demo ---
+
+
         std::cout << "Issaugoti ataskaita? (t/n): ";
         char yn;
         std::cin >> yn;
