@@ -20,7 +20,7 @@
 #include "core/Result.h"              // Encapsulation
 #include "extra/Exporter.h"           // Abstraction
 #include "extra/TextExporter.h"       // Inheritance + Polymorphism
-#include "extra/ConsoleExporter.h"    // Inheritance + Polymorphism
+
 #include "extra/SimpleData.h"         // Class
 
 int main() {
@@ -73,16 +73,10 @@ int main() {
             std::cout << analysis->name() << ": ";
             analysis->run(data);
             std::string result = analysis->getFormattedResult();
-            std::cout << result << "\n";
-            oss << analysis->name() << ": " << result << "\n";
+            //std::cout << result << "\n";
+            //oss << analysis->name() << ": " << result << "\n";
         }
 
-        std::cout << "Issaugoti ataskaita? (t/n): ";
-        char yn;
-        std::cin >> yn;
-        if (yn == 't' || yn == 'T') {
-            Report::save("report.txt", oss.str());
-        }
 
         // --- OOP DEMO: All Five Principles ---
         // 1. Class
@@ -98,13 +92,20 @@ int main() {
         // 3-5. Abstraction + Inheritance + Polymorphism
         std::vector<std::unique_ptr<Exporter>> exporters;
         exporters.push_back(std::make_unique<TextExporter>());
-        exporters.push_back(std::make_unique<ConsoleExporter>());
+
 
         for (auto& e : exporters) {
             e->exportResults(results);  // Polymorphic call via abstract Exporter
         }
         // --- End OOP Demo ---
+        std::cout << "Issaugoti ataskaita? (t/n): ";
+        char yn;
+        std::cin >> yn;
+        if (yn == 't' || yn == 'T') {
+            Report::save("report.txt", oss.str());
+        }
     }
+
 
     std::cout << "Analizatorius baigia darbą.\n";
     return 0;

@@ -22,6 +22,5 @@ add_executable(OOP main.cpp
         core/Result.h
         Extra/Exporter.h
         Extra/TextExporter.h
-        Extra/ConsoleExporter.h
         Extra/SimpleData.h
 )
