@@ -34,20 +34,21 @@ int main() {
     loader.summary();
 
     while (true) {
-        std::cout << "\nPasirinkite stulpelį (A, B, C, D ... arba 'sad' iseiti): ";
+        std::cout << "\nPasirinkite stulpelį (A, B, C ... arba 'sad' iseiti): ";
         std::string input;
         std::cin >> input;
 
         if (input == "sad") break;
 
-        if (input.length() != 1 || std::toupper(input[0]) < 'A' || std::toupper(input[0]) > 'D') {
-            std::cout << "Neteisingas stulpelis. Naudokite A, B, C, D...\n";
+        if (input.length() != 1 || !std::isalpha(input[0])) {
+            std::cout << "Neteisingas stulpelis. Naudokite A, B, C ...\n";
             continue;
         }
 
         int col = std::toupper(input[0]) - 'A';
         if (static_cast<size_t>(col) >= loader.columns()) {
-            std::cout << "Neteisingas stulpelis.\n";
+            std::cout << "Neteisingas stulpelis. Maksimalus stulpelis: "
+                      << static_cast<char>('A' + loader.columns() - 1) << "\n";
             continue;
         }
 

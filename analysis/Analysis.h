@@ -7,7 +7,7 @@
 #include <vector>   // Kad galėtume dirbti su kintamo dydžio skaičių sąrašais
 
 // Klasė – abstrakti bazinė visoms analizėms
-// ISP: Pridedamas segreguotas metodas getFormattedResult()
+// ISP: getFormattedResult()
 // DIP: Visi metodai abstraktūs
 class Analysis {
 public:
