@@ -5,7 +5,7 @@
 #include <vector>
 #include <cctype>
 
-// SRP : Atsakingas už vienąSingle Responsibility Principle
+// SRP : Atsakingas už vieną : Single Responsibility Principle
 #include "core/CSVLoader.h"
 #include "analysis/Analysis.h"
 #include "analysis/MinMaxAnalysis.h"
@@ -21,8 +21,13 @@
 #include "extra/SimpleData.h"         // Klasė
 
 int main() {
+
+    std::cout << "Įveskite CSV failo pavadinimą: ";
+    std::string file;
+    std::cin >> file;
+
     CSVLoader loader;
-    std::string file = "data.csv";
+    //std::string file = "data.csv";
 
     if (!loader.load(file)) {
         std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
