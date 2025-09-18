@@ -6,14 +6,11 @@ Jos turi savo duomenis ir funkcijas.
 
 Enkapsuliacija (Encapsulation) ✅
 Result saugo analysisName ir value kaip private.
-
 SimpleData slepia stulpelio duomenis (values) ir pavadinimą (columnName) su getter/setter metodais.
-
 CSVLoader saugo data_ kaip private.
 
 Abstrakcija (Abstraction) ✅
 Exporter ir Analysis yra abstraktūs interfeisai.
-
 Aukšto lygio modulis (main) bendrauja su abstrakcijomis, o ne konkrečiomis implementacijomis.
 
 Paveldėjimas (Inheritance) ✅
@@ -34,7 +31,6 @@ TextExporter – tik eksportas į tekstą.
 O – Open/Closed Principle ✅ (su sąlyga)
 Galima pridėti naujų analizės ar eksportavimo tipų per paveldėjimą, nekeičiant esamų klasės implementacijų.
 
-Pastaba: jei norėtume palaikyti skirtingus output tipus be std::cout, reikėtų DIP pagerinti.
 
 L – Liskov Substitution Principle ✅
 Visi paveldėti objektai (TextExporter, analizės klasės) gali būti naudojami per bazinę abstrakciją be netikėtų klaidų.
