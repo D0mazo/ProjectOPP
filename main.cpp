@@ -31,16 +31,7 @@ int main() {
         std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
         return 1;
     }
-
-    loader.summary(); // Single – tik pateikia suvestinę, nepriklauso nuo kitų funkcijų
-
-    // Liskov Substitution Principle  – naudojame abstrakcijas Analysis* vietoj konkrečių tipų
-    std::vector<std::unique_ptr<Analysis>> analyses;
-    analyses.push_back(std::make_unique<MinMaxAnalysis>());
-    analyses.push_back(std::make_unique<MedianAnalysis>());
-    analyses.push_back(std::make_unique<MeanAnalysis>());
-    analyses.push_back(std::make_unique<ModeAnalysis>());
-    analyses.push_back(std::make_unique<SumAnalysis>());
+    loader.summary();
 
     while (true) {
         std::cout << "\nPasirinkite stulpelį (A, B, C, D ... arba 'sad' iseiti): ";
@@ -50,7 +41,7 @@ int main() {
         if (input == "sad") break;
 
         if (input.length() != 1 || std::toupper(input[0]) < 'A' || std::toupper(input[0]) > 'D') {
-            std::cout << "Neteisingas stulpelis. Naudokite A, B, C arba D.\n";
+            std::cout << "Neteisingas stulpelis. Naudokite A, B, C, D...\n";
             continue;
         }
 
@@ -65,6 +56,14 @@ int main() {
             std::cout << "Stulpelis tuscias.\n";
             continue;
         }
+        // Liskov Substitution Principle  – naudojame abstrakcijas Analysis* vietoj konkrečių tipų
+        std::vector<std::unique_ptr<Analysis>> analyses;
+        analyses.push_back(std::make_unique<MinMaxAnalysis>());
+        analyses.push_back(std::make_unique<MedianAnalysis>());
+        analyses.push_back(std::make_unique<MeanAnalysis>());
+        analyses.push_back(std::make_unique<ModeAnalysis>());
+        analyses.push_back(std::make_unique<SumAnalysis>());
+        analyses.push_back(std::make_unique<SumAnalysis>());
 
         std::cout << "\n--- Vykdoma analize stulpeliui " << char('A' + col) << " ---\n";
         std::ostringstream oss;
@@ -81,7 +80,7 @@ int main() {
         std::string colName = std::string("Column ") + char('A' + col);
         SimpleData demo(colName, data);
         ConsoleOutputStream consoleOutput;         // DIP-compliant srautas
-        demo.print(consoleOutput);                 // nepriklauso nuo std::cout tiesiogiai
+        demo.print(consoleOutput);
 
         // 2. Enkapsuliacija – Result saugo analizės rezultatus su getter'iais
         std::vector<Result> results;

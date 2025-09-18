@@ -11,14 +11,13 @@
 // DIP: Visi metodai abstraktūs
 class Analysis {
 public:
-    // Išvalyti atmintį – virtualus destruktorius polimorfizmui
+    // IPoliformizmas
     virtual ~Analysis() = default;
 
     // (Šis metodas apskaičiuoja rezultatus viduje, bet slepia detales)
     virtual void run(const std::vector<double>& data) = 0;
 
     // Funkcija, kuri grąžina analizės pavadinimą
-    // const reiškia, kad funkcija nieko nekeičia klasėje
     virtual std::string name() const = 0;
 
 

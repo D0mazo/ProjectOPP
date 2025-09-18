@@ -12,7 +12,6 @@ bool CSVLoader::load(const std::string& filename) {
     std::ifstream file(path);
 
     // O (Open/Closed Principle) – kodas leidžia plėsti paieškos logiką (pvz., kelių direktorijų palaikymas),
-
     if (!file && fs::exists(fs::current_path().parent_path() / path)) {
         path = fs::current_path().parent_path() / path;
         file.open(path);
@@ -32,10 +31,8 @@ bool CSVLoader::load(const std::string& filename) {
                 row.push_back(std::stod(cell));
             } catch (...) {
                 // L (Liskov Substitution Principle) – jei ateityje būtų paveldėta klasė,
-
             }
         }
-
         if (!row.empty()) {
             data_.push_back(row);
         }
@@ -45,7 +42,6 @@ bool CSVLoader::load(const std::string& filename) {
 
 // SIngle – ši funkcija tik parodo duomenų suvestinę (output), o ne atlieka analizę.
 // Dependency Inversion Principle – ši funkcija tiesiogiai naudoja std::cout (aukšto lygio priklausomybė).
-// Jei reikėtų atitikti DIP pilnai, reikėtų iškelti "output" priklausomybę į interfeisą.
 void CSVLoader::summary() const {
     std::cout << "Loaded dataset: " << data_.size() << " rows, ";
     if (!data_.empty())
