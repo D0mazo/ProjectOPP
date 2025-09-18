@@ -20,7 +20,7 @@ public:
     std::string getName() const { return analysisName; }
     std::string getValue() const { return value; }
 
-    // Setter – leidžia pakeisti rezultatą, jei reikia
+
     // Liskov Substitution Principle – galima paveldėti Result
     void setValue(const std::string& val) { value = val; }
 
