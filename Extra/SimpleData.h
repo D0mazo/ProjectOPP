@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include "OutputStream.h"
+
 
 class SimpleData {
 private:
@@ -19,7 +21,7 @@ public:
         : columnName(colName), values(vals) {}
 
     // Pasiima, Enkasuliacija
-    // S – šie metodai tik suteikia prieigą prie duomenų
+    // Single Principe – šie metodai tik suteikia prieigą prie duomenų
     std::string getColumnName() const { return columnName; }
     const std::vector<double>& getValues() const { return values; }
 
@@ -41,10 +43,9 @@ public:
         return oss.str();
     }
 
-    // D (Dependency Inversion Principle) – tiesiogiai priklauso nuo std::cout
-    // Jei norime DIP pilnai, galima perduoti abstraktų Output interfeisą.
-    void print() const {
-        std::cout << toString() << "\n";
+    // DIP-compliant print
+    void print(OutputStream& output) const {
+        output.write(toString());
     }
 
     // L (Liskov Substitution Principle) – jei kada nors paveldėtume SimpleData, override metodai turėtų išlaikyti

@@ -21,4 +21,5 @@ add_executable(OOP main.cpp
         Extra/Exporter.h
         Extra/TextExporter.h
         Extra/SimpleData.h
+        Extra/OutputStream.h
 )
