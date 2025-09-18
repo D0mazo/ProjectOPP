@@ -21,14 +21,12 @@
 #include "extra/SimpleData.h"         // Klasė – duomenų struktūra su metodais
 
 int main() {
-
     std::cout << "Įveskite CSV failo pavadinimą: ";
     std::string file;
     std::cin >> file;
 
     CSVLoader loader;
     // S – atsakingas tik už CSV duomenų užkrovimą
-
     if (!loader.load(file)) {
         std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
         return 1;
@@ -38,7 +36,6 @@ int main() {
 
     // L – naudojame abstrakcijas Analysis* vietoj konkrečių tipų
     std::vector<std::unique_ptr<Analysis>> analyses;
-
     analyses.push_back(std::make_unique<MinMaxAnalysis>());
     analyses.push_back(std::make_unique<MedianAnalysis>());
     analyses.push_back(std::make_unique<MeanAnalysis>());
@@ -93,7 +90,7 @@ int main() {
 
         // 3. Abstrakcija, Paveldėjimas, Polimorfizmas
         std::vector<std::unique_ptr<Exporter>> exporters;
-        exporters.push_back(std::make_unique<TextExporter>());
+        exporters.push_back(std::make_unique<TextExporter>(std::make_unique<ConsoleOutputStream>()));
 
         // Polimorfizmas – galima naudoti įvairius Exporter tipus per bendrą abstrakciją
         for (auto& e : exporters) {

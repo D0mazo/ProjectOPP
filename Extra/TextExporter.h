@@ -1,23 +1,45 @@
-// extra/TextExporter.h
 #pragma once
 #include "Exporter.h"
+#include <memory>
+#include <string>
 #include <iostream>
+
+// Abstract output stream interface (DIP-compliant abstraction)
+class OutputStream {
+public:
+    virtual ~OutputStream() = default;
+    virtual void write(const std::string& data) = 0;
+};
+
+// Concrete implementation for std::cout
+class ConsoleOutputStream : public OutputStream {
+public:
+    void write(const std::string& data) override {
+        std::cout << data;
+    }
+private:
+    std::ostream& out = std::cout; // Reference to std::cout
+};
 
 // S (Single Responsibility Principle) – TextExporter atsakinga tik už rezultatų eksportavimą į tekstą.
 class TextExporter : public Exporter {
 public:
+    // Constructor injection for the output stream (DIP)
+    explicit TextExporter(std::unique_ptr<OutputStream> output)
+        : outputStream(std::move(output)) {}
+
     // O (Open/Closed Principle) – metodas override‘ina abstraktų exportResults.
     // Galima pridėti naujus eksportavimo formatus paveldint Exporter, nekeisdami esamo kodo.
     void exportResults(const std::vector<Result>& results) override {
-        std::cout << "\n=== Tekstine ataskaita ===\n";
+        outputStream->write("\n=== Tekstine ataskaita ===\n");
 
-        // S – atsakinga tik už rezultatų spausdinimą į konsolę.
+        // S – atsakinga tik už rezultatų spausdinimą į abstraktų srautą.
         // L (Liskov Substitution Principle) – galima naudoti Exporter* pointerius su TextExporter
         for (const auto& r : results) {
-            std::cout << r.getName() << ": " << r.getValue() << "\n";
+            outputStream->write(r.getName() + ": " + r.getValue() + "\n");
         }
-
-        // D (Dependency Inversion Principle) – šiuo metu tiesiogiai priklauso nuo std::cout.
-
     }
+
+private:
+    std::unique_ptr<OutputStream> outputStream; // Dependency on abstraction
 };
