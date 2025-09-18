@@ -5,7 +5,6 @@
 #include <filesystem> // C++17+
 
 // Single Responsibility Principle – ši klasė atsakinga tik už CSV failo užkrovimą ir duomenų laikymą.
-
 bool CSVLoader::load(const std::string& filename) {
     namespace fs = std::filesystem;
 
@@ -33,7 +32,7 @@ bool CSVLoader::load(const std::string& filename) {
                 row.push_back(std::stod(cell));
             } catch (...) {
                 // L (Liskov Substitution Principle) – jei ateityje būtų paveldėta klasė,
-                // ji neturėtų sulaužyti šio elgesio (pvz., kita implementacija galėtų loginti klaidas, bet neturėtų mesti nevaldomų išimčių).
+
             }
         }
 
@@ -44,8 +43,8 @@ bool CSVLoader::load(const std::string& filename) {
     return true;
 }
 
-// S – ši funkcija tik parodo duomenų suvestinę (output), o ne atlieka analizę.
-// D (Dependency Inversion Principle) – ši funkcija tiesiogiai naudoja std::cout (aukšto lygio priklausomybė).
+// SIngle – ši funkcija tik parodo duomenų suvestinę (output), o ne atlieka analizę.
+// Dependency Inversion Principle – ši funkcija tiesiogiai naudoja std::cout (aukšto lygio priklausomybė).
 // Jei reikėtų atitikti DIP pilnai, reikėtų iškelti "output" priklausomybę į interfeisą.
 void CSVLoader::summary() const {
     std::cout << "Loaded dataset: " << data_.size() << " rows, ";
@@ -56,7 +55,6 @@ void CSVLoader::summary() const {
 }
 
 // I (Interface Segregation Principle) – klasė pateikia atskirą metodą tik stulpeliui gauti,
-
 std::vector<double> CSVLoader::getColumn(size_t col) const {
     std::vector<double> column;
     for (const auto& row : data_) {
@@ -68,7 +66,6 @@ std::vector<double> CSVLoader::getColumn(size_t col) const {
 }
 
 // Single – vienintelis tikslas: gauti stulpelių skaičių.
-
 size_t CSVLoader::columns() const {
     return data_.empty() ? 0 : data_[0].size();
 }

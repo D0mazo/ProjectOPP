@@ -21,7 +21,7 @@
 #include "extra/SimpleData.h"         // Klasė – duomenų struktūra su metodais
 
 int main() {
-    std::cout << "Įveskite CSV failo pavadinimą: ";
+    std::cout << "Iveskite CSV failo pavadinimA: ";
     std::string file;
     std::cin >> file;
 
@@ -32,9 +32,9 @@ int main() {
         return 1;
     }
 
-    loader.summary(); // S – tik pateikia suvestinę, nepriklauso nuo kitų funkcijų
+    loader.summary(); // Single – tik pateikia suvestinę, nepriklauso nuo kitų funkcijų
 
-    // L – naudojame abstrakcijas Analysis* vietoj konkrečių tipų
+    // Liskov Substitution Principle  – naudojame abstrakcijas Analysis* vietoj konkrečių tipų
     std::vector<std::unique_ptr<Analysis>> analyses;
     analyses.push_back(std::make_unique<MinMaxAnalysis>());
     analyses.push_back(std::make_unique<MedianAnalysis>());
@@ -43,7 +43,7 @@ int main() {
     analyses.push_back(std::make_unique<SumAnalysis>());
 
     while (true) {
-        std::cout << "\nPasirinkite stulpelį (A, B, C, D arba 'sad' iseiti): ";
+        std::cout << "\nPasirinkite stulpelį (A, B, C, D ... arba 'sad' iseiti): ";
         std::string input;
         std::cin >> input;
 

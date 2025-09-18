@@ -21,7 +21,7 @@ public:
     std::string getValue() const { return value; }
 
     // Setter – leidžia pakeisti rezultatą, jei reikia
-    // L (Liskov Substitution Principle) – galima paveldėti Result ir naudoti šiuos metodus be netikėtų klaidų
+    // Liskov Substitution Principle – galima paveldėti Result ir naudoti šiuos metodus be netikėtų klaidų
     void setValue(const std::string& val) { value = val; }
 
     // I (Interface Segregation Principle) – klasė turi tik būtinus metodus, nereikia papildomų funkcijų
