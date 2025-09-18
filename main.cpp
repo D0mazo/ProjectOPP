@@ -80,7 +80,7 @@ int main() {
         // 1. Klasė – SimpleData klasė saugo stulpelio duomenis ir metodus
         std::string colName = std::string("Column ") + char('A' + col);
         SimpleData demo(colName, data);
-        ConsoleOutputStream consoleOutput;         // DIP-compliant srautas
+        ConsoleOutputStream consoleOutput;         // DIP - srautas
         demo.print(consoleOutput);
 
         // 2. Enkapsuliacija – Result saugo analizės rezultatus su getter'iais

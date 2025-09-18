@@ -16,7 +16,6 @@ public:
     std::string getFormattedResult() const override;
 
 private:
-    // Enkapsuliacija: Privatus narys saugo vidurkį
     double result_ = 0.0;
 };
 

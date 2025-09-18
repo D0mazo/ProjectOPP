@@ -21,11 +21,9 @@ public:
         : columnName(colName), values(vals) {}
 
     // Pasiima, Enkasuliacija
-    // Single Principe – šie metodai tik suteikia prieigą prie duomenų
     std::string getColumnName() const { return columnName; }
     const std::vector<double>& getValues() const { return values; }
 
-    // S – metodas daro tik vieną dalyką: prideda reikšmę prie duomenų vektoriaus.
     void addValue(double val) {
         values.push_back(val);
     }
