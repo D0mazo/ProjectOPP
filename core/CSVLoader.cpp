@@ -50,7 +50,7 @@ void CSVLoader::summary() const {
         std::cout << "0 columns.\n";
 }
 
-// I (Interface Segregation Principle) – klasė pateikia atskirą metodą tik stulpeliui gauti,
+// Interface Segregation Principle – klasė pateikia atskirą metodą tik stulpeliui gauti,
 std::vector<double> CSVLoader::getColumn(size_t col) const {
     std::vector<double> column;
     for (const auto& row : data_) {

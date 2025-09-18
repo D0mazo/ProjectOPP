@@ -62,8 +62,8 @@ int main() {
         analyses.push_back(std::make_unique<MedianAnalysis>());
         analyses.push_back(std::make_unique<MeanAnalysis>());
         analyses.push_back(std::make_unique<ModeAnalysis>());
-        analyses.push_back(std::make_unique<SumAnalysis>());
-        analyses.push_back(std::make_unique<SumAnalysis>());
+        analyses.push_back(std::make_unique<SumAnalysis>()); //Open/Coled principe
+
 
         std::cout << "\n--- Vykdoma analize stulpeliui " << char('A' + col) << " ---\n";
         std::ostringstream oss;

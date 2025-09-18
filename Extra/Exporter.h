@@ -8,9 +8,9 @@
 class Exporter {
 public:
     // O (Open/Closed Principle) – interfeisas leidžia pridėti naujus eksportavimo tipus (pvz., TextExporter, CSVExporter)
-    virtual void exportResults(const std::vector<Result>& results) = 0;
+    virtual void exportResults(const std::vector<Result>& results) = 0; //ISP
 
     // L (Liskov Substitution Principle) – galima naudoti Exporter* arba Exporter& su bet kuria paveldėta klase
-    virtual ~Exporter() = default;
+    virtual ~Exporter() = default; //Abstrakcija
 
 };
