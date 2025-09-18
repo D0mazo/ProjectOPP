@@ -41,7 +41,6 @@ bool CSVLoader::load(const std::string& filename) {
 }
 
 // SIngle – ši funkcija tik parodo duomenų suvestinę (output), o ne atlieka analizę.
-// Dependency Inversion Principle – ši funkcija tiesiogiai naudoja std::cout (aukšto lygio priklausomybė).
 void CSVLoader::summary() const {
     std::cout << "Loaded dataset: " << data_.size() << " rows, ";
     if (!data_.empty())
