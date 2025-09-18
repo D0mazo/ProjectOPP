@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
+
 //Klasė
 class CSVLoader {
 public:
-
     bool load(const std::string& filename);
     void summary() const;
 

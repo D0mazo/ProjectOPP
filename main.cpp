@@ -5,20 +5,20 @@
 #include <vector>
 #include <cctype>
 
-// SRP : Atsakingas už vieną : Single Responsibility Principle
-#include "core/CSVLoader.h"
-#include "analysis/Analysis.h"
+// SRP : Single Responsibility Principle – kiekviena įtraukta klasė atsakinga tik už vieną dalyką
+#include "core/CSVLoader.h"       // CSV failo nuskaitymas
+#include "analysis/Analysis.h"    // Abstrakti analizės klasė
 #include "analysis/MinMaxAnalysis.h"
 #include "analysis/MedianAnalysis.h"
 #include "analysis/MeanAnalysis.h"
 #include "analysis/ModeAnalysis.h"
 #include "analysis/SumAnalysis.h"
 
-// OPP principai
-#include "core/Result.h"              // Enkapsuliacija
-#include "extra/Exporter.h"           // Abstrakcija
-#include "extra/TextExporter.h"       // Paveldėjimas ir Polimorfizmas
-#include "extra/SimpleData.h"         // Klasė
+// OOP principai
+#include "core/Result.h"              // Enkapsuliacija – duomenys slepiami, prieiga tik per getter'us
+#include "extra/Exporter.h"           // Abstrakcija – bendras eksportavimo interfeisas
+#include "extra/TextExporter.h"       // Paveldėjimas ir Polimorfizmas – galima naudoti įvairius Exporter tipus
+#include "extra/SimpleData.h"         // Klasė – duomenų struktūra su metodais
 
 int main() {
 
@@ -27,14 +27,16 @@ int main() {
     std::cin >> file;
 
     CSVLoader loader;
-    //std::string file = "data.csv";
+    // S – atsakingas tik už CSV duomenų užkrovimą
 
     if (!loader.load(file)) {
         std::cout << "Nepavyko atidaryti " << file << ". Sukurkite paprastą skaitmeninį CSV failą.\n";
         return 1;
     }
-    loader.summary();
 
+    loader.summary(); // S – tik pateikia suvestinę, nepriklauso nuo kitų funkcijų
+
+    // L – naudojame abstrakcijas Analysis* vietoj konkrečių tipų
     std::vector<std::unique_ptr<Analysis>> analyses;
 
     analyses.push_back(std::make_unique<MinMaxAnalysis>());
@@ -71,33 +73,33 @@ int main() {
         std::ostringstream oss;
         oss << "Ataskaita stulpeliui " << char('A' + col) << "\n";
 
+        // Polimorfizmas – visi analizės objektai naudojami per bendrą abstrakciją
         for (auto& analysis : analyses) {
-                        analysis->run(data);
+            analysis->run(data);
         }
 
-        // Visi Principai
-        // 1. Klasė
+        // --------------------------
+        // Visi OOP principai
+        // 1. Klasė – SimpleData klasė saugo stulpelio duomenis ir metodus
         std::string colName = std::string("Column ") + char('A' + col);
         SimpleData demo(colName, data);
-        demo.print();
+        demo.print(); // S – tik spausdina duomenis
 
-        // 2. Enkapsuliacija
+        // 2. Enkapsuliacija – Result saugo analizės rezultatus su getter'iais
         std::vector<Result> results;
         for (auto& analysis : analyses) {
             results.emplace_back(analysis->name(), analysis->getFormattedResult());
         }
 
-        // Abstrakcija, Paveldėjimas, Polimorfizmas
+        // 3. Abstrakcija, Paveldėjimas, Polimorfizmas
         std::vector<std::unique_ptr<Exporter>> exporters;
         exporters.push_back(std::make_unique<TextExporter>());
 
-
+        // Polimorfizmas – galima naudoti įvairius Exporter tipus per bendrą abstrakciją
         for (auto& e : exporters) {
             e->exportResults(results);
         }
-
     }
-
 
     std::cout << "Analizatorius baigia darbą.\n";
     return 0;

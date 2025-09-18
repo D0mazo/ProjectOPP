@@ -4,12 +4,16 @@
 #include <sstream>
 #include <filesystem> // C++17+
 
+// Single Responsibility Principle – ši klasė atsakinga tik už CSV failo užkrovimą ir duomenų laikymą.
+
 bool CSVLoader::load(const std::string& filename) {
-    //duomenų pasiėmimas
     namespace fs = std::filesystem;
 
     fs::path path = filename;
     std::ifstream file(path);
+
+    // O (Open/Closed Principle) – kodas leidžia plėsti paieškos logiką (pvz., kelių direktorijų palaikymas),
+
     if (!file && fs::exists(fs::current_path().parent_path() / path)) {
         path = fs::current_path().parent_path() / path;
         file.open(path);
@@ -23,12 +27,13 @@ bool CSVLoader::load(const std::string& filename) {
         std::string cell;
         std::vector<double> row;
 
-        // Skaito langelius, atskirtus kableliais
+        // SIngle – atsakinga tik už eilučių konvertavimą į skaičius.
         while (std::getline(iss, cell, ',')) {
             try {
                 row.push_back(std::stod(cell));
             } catch (...) {
-                // Ignoruoja netinkamus skaičius
+                // L (Liskov Substitution Principle) – jei ateityje būtų paveldėta klasė,
+                // ji neturėtų sulaužyti šio elgesio (pvz., kita implementacija galėtų loginti klaidas, bet neturėtų mesti nevaldomų išimčių).
             }
         }
 
@@ -38,7 +43,10 @@ bool CSVLoader::load(const std::string& filename) {
     }
     return true;
 }
-//outputas consolėje
+
+// S – ši funkcija tik parodo duomenų suvestinę (output), o ne atlieka analizę.
+// D (Dependency Inversion Principle) – ši funkcija tiesiogiai naudoja std::cout (aukšto lygio priklausomybė).
+// Jei reikėtų atitikti DIP pilnai, reikėtų iškelti "output" priklausomybę į interfeisą.
 void CSVLoader::summary() const {
     std::cout << "Loaded dataset: " << data_.size() << " rows, ";
     if (!data_.empty())
@@ -46,6 +54,8 @@ void CSVLoader::summary() const {
     else
         std::cout << "0 columns.\n";
 }
+
+// I (Interface Segregation Principle) – klasė pateikia atskirą metodą tik stulpeliui gauti,
 
 std::vector<double> CSVLoader::getColumn(size_t col) const {
     std::vector<double> column;
@@ -56,6 +66,8 @@ std::vector<double> CSVLoader::getColumn(size_t col) const {
     }
     return column;
 }
+
+// Single – vienintelis tikslas: gauti stulpelių skaičių.
 
 size_t CSVLoader::columns() const {
     return data_.empty() ? 0 : data_[0].size();
