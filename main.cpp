@@ -75,8 +75,6 @@ int main() {
             analysis->run(data);
         }
 
-        // --------------------------
-        // Visi OOP principai
         // 1. Klasė – SimpleData klasė saugo stulpelio duomenis ir metodus
         std::string colName = std::string("Column ") + char('A' + col);
         SimpleData demo(colName, data);

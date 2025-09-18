@@ -29,7 +29,7 @@ public:
     }
 
 
-    // O (Open/Closed Principle) – galima plėsti toString, pvz., pridėti naują formatą, nekeičiant esamo metodo.
+    // O (Open/Closed Principle)
     std::string toString() const {
         std::ostringstream oss;
         oss << "Stulpelis: " << columnName << ", Reiksmes: [";
@@ -41,11 +41,9 @@ public:
         return oss.str();
     }
 
-    // DIP-compliant print
+    // DIP
     void print(OutputStream& output) const {
         output.write(toString());
     }
 
-    // L (Liskov Substitution Principle) – jei kada nors paveldėtume SimpleData, override metodai turėtų išlaikyti
-    // I (Interface Segregation Principle) – klasė neturi nereikalingų metodų; tik tie, kurie būtini stulpelio duomenims manipuliuoti ir parodyti.
 };

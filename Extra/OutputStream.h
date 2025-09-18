@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
-
+//ISP
 class OutputStream {
 public:
     virtual ~OutputStream() = default;
